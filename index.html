@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historical Tree of Computer Graphics (Interactive)</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:24px;background:#0b1020;color:#e9edf7}
+h1{margin-top:0;font-size:28px}
+.container{max-width:1100px;margin:0 auto}
+.node{margin:6px 0;padding:10px 12px;border-radius:12px;background:#121936;box-shadow:0 1px 0 rgba(255,255,255,0.04) inset}
+.header{display:flex;align-items:center;gap:10px;cursor:pointer}
+.badge{font-size:12px;padding:2px 8px;border-radius:999px;background:#1e2a57;color:#c9d6ff}
+.title{font-weight:600}
+.meta{font-size:13px;opacity:0.9;margin-top:6px}
+.links a{color:#8ec7ff;text-decoration:none}
+.links a:hover{text-decoration:underline}
+.children{margin-left:18px;margin-top:8px;display:none}
+.toggle{width:12px;height:12px;border:1.5px solid #8ec7ff;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;line-height:10px}
+footer{margin-top:24px;opacity:0.7;font-size:12px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Historical Tree of Computer Graphics (Interactive)</h1>
+<p>Click a node to expand/collapse. Each node lists one foundational paper and one recent influential paper.</p>
+<div id="tree"></div>
+<footer>Curated for graduate study. Links point to arXiv/ACM or authoritative sources.</footer>
+</div>
+<script>
+const data = {"title": "Historical Tree of Computer Graphics (Interactive)", "nodes": [{"name": "Computer Graphics", "found": {"title": "Sutherland \u2013 Sketchpad (1963)", "url": "https://dl.acm.org/doi/10.1145/1461551.1461591"}, "recent": {"title": "3D Gaussian Splatting (SIGGRAPH 2023)", "url": "https://arxiv.org/abs/2308.04079"}, "children": [{"name": "Rendering & Global Illumination", "found": {"title": "Kajiya \u2013 The Rendering Equation (1986)", "url": "https://www.cs.rpi.edu/~cutler/classes/advancedgraphics/S10/papers/kajiya.pdf"}, "recent": {"title": "ReSTIR GI (2021)", "url": "https://research.nvidia.com/publication/2021-06_restir-gi-path-resampling-real-time-path-tracing"}, "children": [{"name": "Ray Tracing", "found": {"title": "Whitted \u2013 Improved Illumination Model (1980)", "url": "https://www.cs.drexel.edu/~david/Classes/Papers/p343-whitted.pdf"}, "recent": {"title": "Spatiotemporal Reservoir Resampling (2020)", "url": "https://dl.acm.org/doi/10.1145/3386569.3392481"}, "children": []}, {"name": "Monte Carlo & Denoising", "found": {"title": "Kajiya & von Herzen \u2013 Ray Tracing Volume Densities (1984)", "url": "https://dl.acm.org/doi/10.1145/964965.808590"}, "recent": {"title": "Bako et al. \u2013 KPCN Denoising (2017)", "url": "https://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Bako22.pdf"}, "children": []}, {"name": "Physically Based Rendering & Materials", "found": {"title": "Cook\u2013Torrance BRDF (1982)", "url": "https://graphics.pixar.com/library/ReflectanceModel/paper.pdf"}, "recent": {"title": "Burley \u2013 Physically Based Shading at Disney (2012)", "url": "https://media.disneyanimation.com/uploads/production/publication_asset/48/asset/s2012_pbs_disney_brdf_notes_v3.pdf"}, "children": []}]}, {"name": "Geometry & Modeling", "found": {"title": "Catmull\u2013Clark Subdivision (1978)", "url": "https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/CatmullClark_SDSurf.pdf"}, "recent": {"title": "DeepSDF (2019)", "url": "https://arxiv.org/abs/1901.05103"}, "children": [{"name": "Mesh Processing", "found": {"title": "Hoppe \u2013 Progressive Meshes (1996)", "url": "https://dl.acm.org/doi/10.1145/237170.237216"}, "recent": {"title": "Neural Subdivision (2020)", "url": "https://dl.acm.org/doi/10.1145/3414685.3417831"}, "children": []}, {"name": "Procedural Modeling", "found": {"title": "Prusinkiewicz \u2013 Algorithmic Beauty of Plants (1990)", "url": "https://algorithmicbotany.org/papers/abop/abop.pdf"}, "recent": {"title": "Procedural Modeling of Buildings (2012)", "url": "https://www.cg.tuwien.ac.at/research/publications/2012/musialski_2012_pmb/musialski_2012_pmb-paper.pdf"}, "children": []}, {"name": "Geometry Acquisition / Reconstruction", "found": {"title": "Lorensen & Cline \u2013 Marching Cubes (1987)", "url": "https://dl.acm.org/doi/10.1145/37402.37422"}, "recent": {"title": "Neuralangelo (2023)", "url": "https://arxiv.org/abs/2306.03092"}, "children": []}]}, {"name": "Animation & Simulation", "found": {"title": "Terzopoulos \u2013 Deformable Models (1987)", "url": "https://dl.acm.org/doi/10.1145/37401.37427"}, "recent": {"title": "Human Motion Diffusion Model (2023)", "url": "https://arxiv.org/abs/2209.14916"}, "children": [{"name": "Character Animation & Motion", "found": {"title": "Witkin & Kass \u2013 Spacetime Constraints (1988)", "url": "https://dl.acm.org/doi/10.1145/54852.378507"}, "recent": {"title": "ASE Motion Synthesis (2023)", "url": "https://research.facebook.com/publications/ase-large-scale-motion-synthesis-with-action-specific-experts/"}, "children": []}, {"name": "Physics-Based Animation (Cloth/Soft Bodies)", "found": {"title": "Baraff & Witkin \u2013 Large Steps in Cloth (1998)", "url": "https://dl.acm.org/doi/10.1145/280814.280821"}, "recent": {"title": "Macklin \u2013 XPBD (2016)", "url": "https://mmacklin.com/xpbd.pdf"}, "children": []}, {"name": "Fluids & Natural Phenomena", "found": {"title": "Stam \u2013 Stable Fluids (1999)", "url": "https://www.dgp.toronto.edu/people/stam/reality/Research/pdf/GDC03.pdf"}, "recent": {"title": "FLIP/APIC Advances (survey)", "url": "https://www.cs.ubc.ca/labs/imager/tr/2016/PositionBasedFluids/"}, "children": []}]}, {"name": "Neural Rendering & Generative Graphics", "found": {"title": "Gatys \u2013 Neural Style Transfer (2016)", "url": "https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf"}, "recent": {"title": "3D Gaussian Splatting (2023)", "url": "https://arxiv.org/abs/2308.04079"}, "children": [{"name": "Neural Scene Representations (NeRF)", "found": {"title": "NeRF (2020)", "url": "https://arxiv.org/abs/2003.08934"}, "recent": {"title": "Zip-NeRF (2023)", "url": "https://arxiv.org/abs/2304.06706"}, "children": []}, {"name": "Text-to-Image / 3D Diffusion", "found": {"title": "Latent Diffusion / Stable Diffusion (2022)", "url": "https://arxiv.org/abs/2112.10752"}, "recent": {"title": "DreamFusion (2022) / Magic3D (2023)", "url": "https://arxiv.org/abs/2209.14988"}, "children": []}, {"name": "Denoising & Upscaling for Real-Time", "found": {"title": "KPCN Denoising (2017)", "url": "https://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Bako22.pdf"}, "recent": {"title": "DLSS (NVIDIA, tech overviews)", "url": "https://www.nvidia.com/en-us/geforce/technologies/dlss/"}, "children": []}]}, {"name": "Visualization (Scientific/Medical)", "found": {"title": "Drebin \u2013 Volume Rendering (1988)", "url": "https://dl.acm.org/doi/10.1145/54852.378522"}, "recent": {"title": "State of the Art in Volume Rendering (2015)", "url": "https://diglib.eg.org/handle/10.2312/egst.20151040.001-020"}, "children": []}, {"name": "Non-Photorealistic Rendering (NPR)", "found": {"title": "Gooch \u2013 Technical Illustration (1998)", "url": "https://dl.acm.org/doi/10.1145/280814.280951"}, "recent": {"title": "Neural Video Stylization (overview)", "url": "https://arxiv.org/abs/1804.04768"}, "children": []}, {"name": "Computational Photography", "found": {"title": "Debevec & Malik \u2013 HDR (1997)", "url": "https://www.pauldebevec.com/Research/HDR/debevec-siggraph97.pdf"}, "recent": {"title": "Neural Portrait Relighting (2020)", "url": "https://arxiv.org/abs/2005.09013"}, "children": []}, {"name": "Color Science & Appearance", "found": {"title": "Reinhard \u2013 Photographic Tone Mapping (2002)", "url": "https://www.cs.utah.edu/~reinhard/cdrom/"}, "recent": {"title": "Data-Driven/Neural BSDFs (survey entry)", "url": "https://dl.acm.org/doi/10.1145/3072959.3073620"}, "children": []}, {"name": "XR: VR/AR/MR", "found": {"title": "Sutherland \u2013 Head-Mounted Display (1968)", "url": "https://dl.acm.org/doi/10.1145/1476589.1476686"}, "recent": {"title": "Foveated/Neural Scene Streaming (survey)", "url": "https://arxiv.org/abs/2301.04660"}, "children": []}]}]};
+
+function createNode(node){
+  const wrapper = document.createElement('div');
+  wrapper.className = 'node';
+  const header = document.createElement('div');
+  header.className = 'header';
+  const toggle = document.createElement('span');
+  toggle.className = 'toggle';
+  toggle.textContent = '+';
+  const title = document.createElement('span');
+  title.className = 'title';
+  title.textContent = node.name;
+  const badge = document.createElement('span');
+  badge.className = 'badge';
+  badge.textContent = (node.children && node.children.length) ? node.children.length + ' subfields' : 'leaf';
+  header.appendChild(toggle);
+  header.appendChild(title);
+  header.appendChild(badge);
+  wrapper.appendChild(header);
+
+  const meta = document.createElement('div');
+  meta.className = 'meta links';
+  meta.innerHTML = 'Foundational: <a href="' + node.found.url + '" target="_blank" rel="noopener">' + node.found.title + '</a> • Recent: <a href="' + node.recent.url + '" target="_blank" rel="noopener">' + node.recent.title + '</a>';
+  wrapper.appendChild(meta);
+
+  const children = document.createElement('div');
+  children.className = 'children';
+  if(node.children){
+    node.children.forEach(ch => children.appendChild(createNode(ch)));
+  }
+  wrapper.appendChild(children);
+
+  header.addEventListener('click', () => {
+    const open = children.style.display === 'block';
+    children.style.display = open ? 'none' : 'block';
+    toggle.textContent = open ? '+' : '–';
+  });
+  return wrapper;
+}
+
+const root = data.nodes[0];
+const container = document.getElementById('tree');
+container.appendChild(createNode(root));
+</script>
+</body>
+</html>

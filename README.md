@@ -24,3 +24,27 @@ Open `index.html` in your web browser or visit the deployed link above. Click on
 - Dark theme design
 
 Curated for graduate study and research reference.
+
+## TODO
+
+Future enhancements planned for this research map:
+
+1. **Visual Storytelling & Rich Content**
+   - Add images and visual examples for each subfield
+   - Include detailed history background and timeline for each research area
+   - Showcase cutting-edge advancements with visual demonstrations
+   - Add interactive demos or embedded videos where relevant
+
+2. **Research Community Directory**
+   - Links to leading professors and researchers in each subfield
+   - Research group profiles and lab websites
+   - Academic genealogy and influence networks
+   - Geographic distribution of research centers
+
+3. **Comprehensive Learning Resources**
+   - **Books**: Curated reading lists for each subfield (textbooks, monographs)
+   - **Courses**: Links to online courses, university curricula, and MOOCs
+   - **Research Groups**: Directory of active research labs worldwide
+   - **Conferences**: Major venues (SIGGRAPH, Eurographics, etc.) with submission deadlines
+   - **Software Tools**: Essential tools and frameworks for each research area
+   - **Datasets**: Benchmark datasets commonly used in each subfield

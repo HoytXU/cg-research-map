@@ -1,52 +1,57 @@
 # Computer Graphics Research Map
 
-A visualization of computer graphics research areas with foundational and recent papers.
+A paper-led guide to computer graphics research, organized around major problem areas and the work that shaped them.
 
-Like I said, I’m a first-year MPhil student, and I was actually not so sure about my future research directions. But after my internship, I did get a little bit interested in Computer Graphics, physics related specifically. So, I want to dive into the field of Computer Graphics and get to see what this science is about and what the frontier cg research is doing in history, and what they are doing now.
+**Live site:** [hoytxu.me/cg-research-map](https://hoytxu.me/cg-research-map)
 
-**Live Demo**: [hoytxu.me/cg-research-map](https://hoytxu.me/cg-research-map)
+## About
 
-## Usage
+This project began as a way to understand the breadth of computer graphics and to identify a direction for deeper study. The current version reflects a growing interest in physical simulation, so that area receives more detailed coverage than the others.
 
-Open `index.html` in your web browser or visit the deployed link above. Click on research areas to expand/collapse and explore the hierarchical structure of computer graphics research.
+The map is a personal study aid rather than an exhaustive survey. It connects each topic to an earlier and a later representative paper, making it possible to move quickly from a broad research area to primary sources.
 
-## Features
+## What is included
 
-- Interactive tree navigation
-- Color-coded research categories with domain classification:
-  - 🔵 **Rendering** - Ray tracing, global illumination, physically-based rendering
-  - 🟢 **Geometry** - Mesh processing, procedural modeling, reconstruction
-  - 🟠 **Animation** - Character animation, physics simulation, motion synthesis
-  - 🟣 **Neural** - Neural rendering, NeRF, diffusion models, AI-driven graphics
-  - 🟡 **Appearance** - Materials, color science, computational photography
-  - 🟢 **Application** - Visualization, NPR, XR, specialized domains
-- Links to foundational and recent papers for each area
-- Restrained, print-inspired academic layout
-- Field-specific landmark paper trails
-- First-page previews for selected primary sources
+The interactive outline groups the field into five problem-oriented areas:
 
-Curated for graduate study and research reference.
+- **Rendering & Appearance** — light transport, materials, ray tracing, denoising, and non-photorealistic rendering
+- **Geometry & Modeling** — meshes, procedural modeling, and geometry acquisition or reconstruction
+- **Animation & Physical Simulation** — character motion, deformable and rigid bodies, fluids, particle methods, and differentiable simulation
+- **Imaging & Inverse Graphics** — computational photography, inverse rendering, and neural scene representations
+- **Visualization & Interaction** — scientific and medical visualization, VR, AR, and MR
 
-## TODO
+A separate reader presents chronological landmark-paper trails for rendering, geometry, physical simulation, and neural graphics. Selected papers include first-page previews that link to the full source.
 
-Future enhancements planned for this research map:
+## Using the map
 
-1. **Visual Storytelling & Rich Content**
-   - Add images and visual examples for each subfield
-   - Include detailed history background and timeline for each research area
-   - Showcase cutting-edge advancements with visual demonstrations
-   - Add interactive demos or embedded videos where relevant
+Visit the [live site](https://hoytxu.me/cg-research-map), or open `index.html` directly in a modern browser.
 
-2. **Research Community Directory**
-   - Links to leading professors and researchers in each subfield
-   - Research group profiles and lab websites
-   - Academic genealogy and influence networks
-   - Geographic distribution of research centers
+- Select a research area to reveal or hide its subtopics.
+- Use **Expand all** and **Collapse all** to control the complete outline.
+- Follow the **Earlier** and **Later** links for representative work in each area.
+- Select a paper preview or title in the landmark lists to open the source.
 
-3. **Comprehensive Learning Resources**
-   - **Books**: Curated reading lists for each subfield (textbooks, monographs)
-   - **Courses**: Links to online courses, university curricula, and MOOCs
-   - **Research Groups**: Directory of active research labs worldwide
-   - **Conferences**: Major venues (SIGGRAPH, Eurographics, etc.) with submission deadlines
-   - **Software Tools**: Essential tools and frameworks for each research area
-   - **Datasets**: Benchmark datasets commonly used in each subfield
+## Local development
+
+The site is a self-contained HTML document with no build step or package dependencies. To serve it locally:
+
+```sh
+python3 -m http.server 8000
+```
+
+Then open [localhost:8000](http://localhost:8000). The paper preview images are stored in `assets/papers/`; the research data, styles, and interaction logic are contained in `index.html`.
+
+## Design
+
+The interface uses a restrained, print-inspired academic layout. It is responsive on narrow screens, supports keyboard interaction for expandable topics, and lazy-loads paper previews.
+
+## Scope and roadmap
+
+The collection is curated and necessarily incomplete. Planned extensions include:
+
+- visual examples and historical context for individual subfields
+- books, courses, software, datasets, and other learning resources
+- directories of researchers, laboratories, and major publication venues
+- additional landmark-paper trails and interactive demonstrations
+
+Corrections and suggestions for important missing work are welcome.

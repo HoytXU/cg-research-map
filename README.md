@@ -21,7 +21,9 @@ Open `index.html` in your web browser or visit the deployed link above. Click on
   - 🟡 **Appearance** - Materials, color science, computational photography
   - 🟢 **Application** - Visualization, NPR, XR, specialized domains
 - Links to foundational and recent papers for each area
-- Dark theme design
+- Restrained, print-inspired academic layout
+- Field-specific landmark paper trails
+- First-page previews for selected primary sources
 
 Curated for graduate study and research reference.
 

@@ -3,44 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computer Graphics Research Map (Interactive)</title>
+<title>Computer Graphics — A Research Map</title>
+<meta name="description" content="A concise, paper-led map of computer graphics research, from foundational work to current directions.">
 <style>
-:root{ --bg:#0b1020;--card:#121936;--ink:#e9edf7;--muted:#a8b3d9;--accent:#8ec7ff;--badge:#1e2a57 }
-*{box-sizing:border-box}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--ink)}
-.container{max-width:1100px;margin:0 auto;padding:24px}
-h1{margin:0 0 12px;font-size:28px}
-.intro{background:var(--card);padding:16px 18px;border-radius:12px;line-height:1.55;box-shadow:0 1px 0 rgba(255,255,255,.05) inset}
-.small{font-size:13px;color:var(--muted)}
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0 2px}
-.legend .chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
-.dot{width:10px;height:10px;border-radius:50%}
-.dot.rendering{background:#7cc0ff}
-.dot.geometry{background:#a0e080}
-.dot.animation{background:#ffb36b}
-.dot.neural{background:#f28bff}
-.dot.appearance{background:#ffd86b}
-.dot.application{background:#66e0d6}
-
-.node{margin:6px 0;padding:10px 12px;border-radius:12px;background:var(--card);box-shadow:0 1px 0 rgba(255,255,255,0.04) inset}
-.header{display:flex;align-items:center;gap:8px;cursor:pointer}
-.toggle{width:12px;height:12px;border:1.5px solid var(--accent);border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;line-height:10px}
-.title{font-weight:600}
-.badge{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--badge);color:#c9d6ff;margin-left:auto}
-.tagdots{display:flex;gap:4px;margin:0 4px 0 2px}
-.meta{font-size:13px;opacity:0.9;margin-top:6px}
-.links a{color:var(--accent);text-decoration:none}
-.links a:hover{text-decoration:underline}
-.children{margin-left:18px;margin-top:8px;display:none}
-footer{margin-top:24px;opacity:0.7;font-size:12px}
+:root {
+  --paper: #fff;
+  --ink: #181817;
+  --muted: #68665f;
+  --rule: #cbc8bd;
+  --faint: #eeece4;
+  --link: #204f73;
+  --link-hover: #793425;
+  --sans: Arial, Helvetica, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font: 16px/1.5 var(--sans);
+}
+a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--link-hover); }
+button, input, select { font: inherit; }
+.container { width: min(92%, 900px); margin: 0 auto; padding: 34px 0 58px; }
+.site-header { padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+#map { margin-top: 28px; }
+.eyebrow, .section-kicker { display: none; }
+h1 { margin: 0; font-size: 2rem; line-height: 1.2; font-weight: 600; }
+.subtitle { max-width: 720px; margin: 5px 0 0; color: var(--muted); font-size: .95rem; }
+.contents { display: flex; gap: 16px; margin-top: 12px; font-size: .78rem; }
+.contents a { text-decoration: none; }
+.introduction { margin: 22px 0 34px; }
+.introduction p { margin: 0; }
+.introduction p + p { margin-top: 7px; }
+.notation { color: var(--muted); font-size: .86rem; }
+.legend { display: none; }
+.chip { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #777; }
+.dot.rendering { background: #376d96; }
+.dot.geometry { background: #627f3d; }
+.dot.animation { background: #a35c2e; }
+.dot.neural { background: #81527d; }
+.dot.appearance { background: #a88420; }
+.dot.application { background: #397d77; }
+.map-heading, .reader-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+h2 { margin: 0; font-size: 1.3rem; font-weight: 600; }
+.map-tools { display: flex; align-items: center; gap: 12px; font: .75rem/1.3 var(--sans); }
+.map-tools button { padding: 0; border: 0; border-bottom: 1px solid var(--rule); color: var(--link); background: transparent; cursor: pointer; }
+.map-tools button:hover { color: var(--link-hover); }
+#tree { counter-reset: field; }
+.node { border-bottom: 1px solid var(--rule); }
+.node.depth-0 { border-bottom: 0; }
+.depth-0 > .meta { display: none; }
+.header { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 10px; width: 100%; padding: 13px 0 8px; cursor: pointer; }
+.depth-0 > .header { display: none; }
+.entry-index { display: none; }
+.title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.title { font-size: 1.05rem; font-weight: bold; }
+.depth-2 > .header .title { font-size: .98rem; font-weight: normal; }
+.tagdots { display: none; }
+.toggle { color: var(--muted); font: .75rem/1 var(--sans); }
+.badge { color: var(--muted); font-size: .72rem; white-space: nowrap; }
+.meta { margin: -2px 0 12px; color: var(--muted); font-size: .82rem; }
+.meta .label { color: var(--ink); font-variant: small-caps; letter-spacing: .02em; }
+.meta .separator { padding: 0 7px; color: #aaa79d; }
+.children { margin-left: 16px; border-left: 1px solid var(--faint); padding-left: 20px; }
+.children[hidden] { display: none; }
+.depth-0 > .children { margin-left: 0; border-left: 0; padding-left: 0; }
+.paper-reader { margin-top: 46px; }
+.reader-note { max-width: 680px; margin: 10px 0 2px; color: var(--muted); font-size: .86rem; }
+.paper-field { padding: 27px 0; border-bottom: 1px solid var(--rule); }
+.paper-field:last-of-type { border-bottom: 0; }
+.field-heading { margin-bottom: 16px; }
+.field-code { display: none; }
+.field-heading h3 { margin: 0; font-size: 1.08rem; font-weight: 600; }
+.field-heading p { margin: 2px 0 0; color: var(--muted); font-size: .8rem; }
+.paper-trail { display: grid; grid-template-columns: 180px 1fr; gap: 34px; align-items: start; }
+.paper-preview { margin: 0; }
+.paper-preview a { display: block; border: 1px solid var(--rule); background: #fff; }
+.paper-preview img { display: block; width: 100%; height: auto; aspect-ratio: 231 / 300; object-fit: contain; }
+.paper-preview figcaption { margin-top: 7px; color: var(--muted); font-size: .72rem; line-height: 1.4; }
+.milestones { margin: 0; padding-left: 1.5rem; }
+.milestones li { min-height: 58px; padding: 0 0 13px 4px; border-bottom: 1px solid var(--faint); }
+.milestones li + li { padding-top: 13px; }
+.milestones a { font-weight: bold; }
+.milestone-meta { display: block; margin-top: 2px; color: var(--muted); font-size: .78rem; line-height: 1.4; }
+footer { margin-top: 42px; padding-top: 12px; border-top: 1px solid var(--rule); color: var(--muted); font-size: .75rem; text-align: right; }
+@media (max-width: 700px) {
+  .container { width: min(91%, 920px); padding-top: 28px; }
+  .contents { gap: 12px; flex-wrap: wrap; }
+  .map-heading { align-items: flex-end; }
+  .map-tools { flex-direction: column; align-items: flex-end; gap: 4px; }
+  .header { grid-template-columns: 1fr auto; gap: 6px; }
+  .children { margin-left: 12px; padding-left: 14px; }
+  .paper-trail { grid-template-columns: 110px 1fr; gap: 18px; }
+}
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Computer Graphics Research Map</h1>
-  <div class="intro">
-    <p><strong>Background</strong>: Computer graphics began with Ivan Sutherland’s Sketchpad (1963), which proved that humans could draw and manipulate geometry interactively on a CRT. As memory became cheaper in the 1970s, raster framebuffers replaced vector displays, enabling shaded images and texture mapping. By the 1980s–90s, global illumination (ray tracing, radiosity) and dedicated hardware (SGI, early GPUs) industrialized 3D. The 2000s introduced programmable shaders and physically based rendering across film and games. Since 2020, neural methods (NeRFs, diffusion, denoisers) have fused graphics with AI, accelerating and expanding the pipeline.</p>
-    <p class="small"><strong>Layer colors.</strong></p>
+  <header class="site-header">
+    <h1>Computer Graphics Research Map</h1>
+  </header>
+
+  <section id="map" aria-labelledby="map-title">
+    <div class="map-heading">
+      <div>
+        <h2 id="map-title">Research areas and representative papers</h2>
+      </div>
+      <div class="map-tools" aria-label="Map controls">
+        <button type="button" id="expand-all">Expand all</button>
+        <button type="button" id="collapse-all">Collapse all</button>
+      </div>
+    </div>
     <div class="legend">
       <span class="chip"><span class="dot rendering"></span>Rendering</span>
       <span class="chip"><span class="dot geometry"></span>Geometry</span>
@@ -49,11 +126,105 @@ footer{margin-top:24px;opacity:0.7;font-size:12px}
       <span class="chip"><span class="dot appearance"></span>Appearance</span>
       <span class="chip"><span class="dot application"></span>Application</span>
     </div>
-  </div>
+    <div id="tree"></div>
+  </section>
 
-  <div id="tree"></div>
+  <section class="paper-reader" id="reader" aria-labelledby="reader-title">
+    <div class="reader-heading">
+      <div>
+        <h2 id="reader-title">Landmark papers by field</h2>
+      </div>
+    </div>
+    <p class="reader-note">Each list is chronological. Paper-page images link to the complete PDF.</p>
 
-  <footer>Curated for graduate study. Links point to arXiv/ACM or authoritative sources.</footer>
+    <article class="paper-field" aria-labelledby="rendering-trail">
+      <header class="field-heading">
+        <span class="field-code">R</span>
+        <div><h3 id="rendering-trail">Rendering and light transport</h3></div>
+      </header>
+      <div class="paper-trail">
+        <figure class="paper-preview">
+          <a href="https://www.cs.rpi.edu/~cutler/classes/advancedgraphics/S10/papers/kajiya.pdf" target="_blank" rel="noopener"><img src="assets/papers/rendering-equation.png" width="463" height="600" loading="lazy" alt="First page of The Rendering Equation"></a>
+          <figcaption>Kajiya, 1986. Select the page to read the PDF.</figcaption>
+        </figure>
+        <ol class="milestones">
+          <li data-number="R.1"><a href="https://www.cs.drexel.edu/~david/Classes/Papers/p343-whitted.pdf" target="_blank" rel="noopener">An Improved Illumination Model for Shaded Display</a><span class="milestone-meta">Turner Whitted · 1980 · recursive ray tracing</span></li>
+          <li data-number="R.2"><a href="https://www.cs.rpi.edu/~cutler/classes/advancedgraphics/S10/papers/kajiya.pdf" target="_blank" rel="noopener">The Rendering Equation</a><span class="milestone-meta">James T. Kajiya · 1986 · a unified statement of light transport</span></li>
+          <li data-number="R.3"><a href="https://graphics.stanford.edu/papers/veach_thesis/thesis.pdf" target="_blank" rel="noopener">Robust Monte Carlo Methods for Light Transport Simulation</a><span class="milestone-meta">Eric Veach · 1997 · path-space formulation and multiple importance sampling</span></li>
+          <li data-number="R.4"><a href="https://media.disneyanimation.com/uploads/production/publication_asset/48/asset/s2012_pbs_disney_brdf_notes_v3.pdf" target="_blank" rel="noopener">Physically Based Shading at Disney</a><span class="milestone-meta">Brent Burley · 2012 · production material models</span></li>
+          <li data-number="R.5"><a href="https://dl.acm.org/doi/10.1145/3386569.3392481" target="_blank" rel="noopener">Spatiotemporal Reservoir Resampling</a><span class="milestone-meta">Bitterli et al. · 2020 · ReSTIR for real-time path tracing</span></li>
+        </ol>
+      </div>
+    </article>
+
+    <article class="paper-field" aria-labelledby="geometry-trail">
+      <header class="field-heading">
+        <span class="field-code">G</span>
+        <div><h3 id="geometry-trail">Geometry and shape representation</h3></div>
+      </header>
+      <div class="paper-trail">
+        <figure class="paper-preview">
+          <a href="https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/CatmullClark_SDSurf.pdf" target="_blank" rel="noopener"><img src="assets/papers/catmull-clark.png" width="463" height="600" loading="lazy" alt="First page of Catmull and Clark's subdivision surfaces paper"></a>
+          <figcaption>Catmull &amp; Clark, 1978. Select the page to read the PDF.</figcaption>
+        </figure>
+        <ol class="milestones">
+          <li data-number="G.1"><a href="https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/CatmullClark_SDSurf.pdf" target="_blank" rel="noopener">Recursively Generated B-spline Surfaces on Arbitrary Topological Meshes</a><span class="milestone-meta">Edwin Catmull &amp; Jim Clark · 1978 · subdivision surfaces</span></li>
+          <li data-number="G.2"><a href="https://dl.acm.org/doi/10.1145/37402.37422" target="_blank" rel="noopener">Marching Cubes</a><span class="milestone-meta">Lorensen &amp; Cline · 1987 · extracting surfaces from volumetric data</span></li>
+          <li data-number="G.3"><a href="https://hhoppe.com/proj/pm/" target="_blank" rel="noopener">Progressive Meshes</a><span class="milestone-meta">Hugues Hoppe · 1996 · continuous mesh simplification</span></li>
+          <li data-number="G.4"><a href="https://hhoppe.com/poissonrecon.pdf" target="_blank" rel="noopener">Poisson Surface Reconstruction</a><span class="milestone-meta">Kazhdan, Bolitho &amp; Hoppe · 2006 · global implicit reconstruction</span></li>
+          <li data-number="G.5"><a href="https://arxiv.org/pdf/1901.05103" target="_blank" rel="noopener">DeepSDF</a><span class="milestone-meta">Park et al. · 2019 · learned continuous signed-distance fields</span></li>
+        </ol>
+      </div>
+    </article>
+
+    <article class="paper-field" aria-labelledby="physics-trail">
+      <header class="field-heading">
+        <span class="field-code">P</span>
+        <div><h3 id="physics-trail">Physics and simulation</h3></div>
+      </header>
+      <div class="paper-trail">
+        <figure class="paper-preview">
+          <a href="https://mmacklin.com/pbf_sig_preprint.pdf" target="_blank" rel="noopener"><img src="assets/papers/position-based-fluids.png" width="231" height="300" loading="lazy" alt="First page of Position Based Fluids"></a>
+          <figcaption>Macklin &amp; Müller, 2013. Original author-page preview.</figcaption>
+        </figure>
+        <ol class="milestones">
+          <li data-number="P.1"><a href="https://dl.acm.org/doi/10.1145/37401.37427" target="_blank" rel="noopener">Elastically Deformable Models</a><span class="milestone-meta">Terzopoulos et al. · 1987 · energy-based deformable objects</span></li>
+          <li data-number="P.2"><a href="https://dl.acm.org/doi/10.1145/280814.280821" target="_blank" rel="noopener">Large Steps in Cloth Simulation</a><span class="milestone-meta">Baraff &amp; Witkin · 1998 · implicit integration for cloth</span></li>
+          <li data-number="P.3"><a href="https://dl.acm.org/doi/10.1145/311535.311548" target="_blank" rel="noopener">Stable Fluids</a><span class="milestone-meta">Jos Stam · 1999 · unconditionally stable semi-Lagrangian fluid simulation</span></li>
+          <li data-number="P.4"><a href="https://www.graphics.stanford.edu/papers/smoke/" target="_blank" rel="noopener">Visual Simulation of Smoke</a><span class="milestone-meta">Fedkiw, Stam &amp; Jensen · 2001 · vorticity confinement for detailed smoke</span></li>
+          <li data-number="P.5"><a href="https://matthias-research.github.io/pages/publications/posBasedDyn.pdf" target="_blank" rel="noopener">Position Based Dynamics</a><span class="milestone-meta">Müller et al. · 2007 · direct positional constraint projection</span></li>
+          <li data-number="P.6"><a href="https://mmacklin.com/pbf_sig_preprint.pdf" target="_blank" rel="noopener">Position Based Fluids</a><span class="milestone-meta">Macklin &amp; Müller · 2013 · incompressible particle fluids in PBD</span></li>
+          <li data-number="P.7"><a href="https://mmacklin.com/xpbd.pdf" target="_blank" rel="noopener">XPBD: Position-Based Simulation of Compliant Constrained Dynamics</a><span class="milestone-meta">Macklin, Müller &amp; Chentanez · 2016 · time-step-independent compliance</span></li>
+          <li data-number="P.8"><a href="https://arxiv.org/abs/1810.01054" target="_blank" rel="noopener">ChainQueen: A Real-Time Differentiable Physical Simulator</a><span class="milestone-meta">Hu et al. · 2019 · differentiable MPM for deformable objects and control</span></li>
+          <li data-number="P.9"><a href="https://openreview.net/forum?id=B1eB5xSFvr" target="_blank" rel="noopener">DiffTaichi: Differentiable Programming for Physical Simulation</a><span class="milestone-meta">Hu et al. · 2020 · automatic differentiation for high-performance simulators</span></li>
+        </ol>
+      </div>
+    </article>
+
+    <article class="paper-field" aria-labelledby="neural-trail">
+      <header class="field-heading">
+        <span class="field-code">N</span>
+        <div><h3 id="neural-trail">Neural graphics methods</h3></div>
+      </header>
+      <div class="paper-trail">
+        <figure class="paper-preview">
+          <a href="https://arxiv.org/pdf/2003.08934" target="_blank" rel="noopener"><img src="assets/papers/nerf.png" width="463" height="600" loading="lazy" alt="First page of the NeRF paper"></a>
+          <figcaption>Mildenhall et al., 2020. Select the page to read the PDF.</figcaption>
+        </figure>
+        <ol class="milestones">
+          <li data-number="N.1"><a href="https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf" target="_blank" rel="noopener">Image Style Transfer Using Convolutional Neural Networks</a><span class="milestone-meta">Gatys, Ecker &amp; Bethge · 2016 · neural appearance synthesis</span></li>
+          <li data-number="N.2"><a href="https://arxiv.org/pdf/2003.08934" target="_blank" rel="noopener">NeRF: Representing Scenes as Neural Radiance Fields</a><span class="milestone-meta">Mildenhall et al. · 2020 · continuous volumetric view synthesis</span></li>
+          <li data-number="N.3"><a href="https://nvlabs.github.io/instant-ngp/assets/mueller2022instant.pdf" target="_blank" rel="noopener">Instant Neural Graphics Primitives</a><span class="milestone-meta">Müller et al. · 2022 · multiresolution hash encoding</span></li>
+          <li data-number="N.4"><a href="https://arxiv.org/pdf/2308.04079" target="_blank" rel="noopener">3D Gaussian Splatting for Real-Time Radiance Field Rendering</a><span class="milestone-meta">Kerbl et al. · 2023 · explicit differentiable splats</span></li>
+        </ol>
+      </div>
+    </article>
+  </section>
+
+  <footer>
+    <div>Codex-assisted · Copyright © June 2026 <a href="https://hoytxu.me/">Hoyt</a></div>
+    <div>Last updated June 29, 2026</div>
+  </footer>
 </div>
 
 <script>
@@ -222,7 +393,81 @@ const data = {
   ]
 };
 
-/* ------- UI logic (dots beside each non-root title) ------- */
+/* Normalize the mixed source list into problem-based research fields. */
+const sourceFields=Object.fromEntries(
+  data.nodes[0].children.map(field=>[field.name,field])
+);
+const rendering=sourceFields['Rendering & Global Illumination'];
+const geometry=sourceFields['Geometry & Modeling'];
+const simulation=sourceFields['Animation & Simulation'];
+const neural=sourceFields['Neural Rendering & Generative Graphics'];
+
+rendering.name='Rendering & Appearance';
+rendering.children.push(
+  sourceFields['Non-Photorealistic Rendering (NPR)'],
+  sourceFields['Color Science & Appearance']
+);
+
+simulation.name='Animation & Physical Simulation';
+simulation.children[1].name='Deformable Bodies & Cloth';
+simulation.children[2].name='Fluids, Gases & Natural Phenomena';
+simulation.children[2].recent={
+  title:'Fedkiw, Stam & Jensen – Visual Simulation of Smoke (2001)',
+  url:'https://www.graphics.stanford.edu/papers/smoke/'
+};
+simulation.children.push(
+  {
+    name:'Rigid Bodies, Contact & Fracture',
+    tags:['animation'],
+    found:{title:'Baraff – Analytical Methods for Dynamic Simulation of Non-penetrating Rigid Bodies (1989)',url:'https://dl.acm.org/doi/10.1145/74333.74351'},
+    recent:{title:'Li et al. – Incremental Potential Contact (2020)',url:'https://ipc-sim.github.io/'},
+    children:[]
+  },
+  {
+    name:'Particles & Position-Based Methods',
+    tags:['animation'],
+    found:{title:'Müller et al. – Position Based Dynamics (2007)',url:'https://matthias-research.github.io/pages/publications/posBasedDyn.pdf'},
+    recent:{title:'Macklin et al. – XPBD (2016)',url:'https://mmacklin.com/xpbd.pdf'},
+    children:[]
+  },
+  {
+    name:'Differentiable Physical Simulation',
+    tags:['animation','neural'],
+    found:{title:'Hu et al. – ChainQueen (2019)',url:'https://arxiv.org/abs/1810.01054'},
+    recent:{title:'Hu et al. – DiffTaichi (2020)',url:'https://openreview.net/forum?id=B1eB5xSFvr'},
+    children:[]
+  }
+);
+
+const imaging={
+  name:'Imaging & Inverse Graphics',
+  tags:['application'],
+  found:sourceFields['Computational Photography'].found,
+  recent:{title:'Mildenhall et al. – NeRF (2020)',url:'https://arxiv.org/abs/2003.08934'},
+  children:[
+    sourceFields['Computational Photography'],
+    {
+      name:'Inverse & Differentiable Rendering',
+      tags:['rendering','neural'],
+      found:{title:'Debevec et al. – The Campanile Movie (1997)',url:'https://www.pauldebevec.com/Campanile/'},
+      recent:{title:'Mitsuba 2 – A Retargetable Forward and Inverse Renderer (2019)',url:'https://rgl.epfl.ch/publications/NimierDavidVicini2019Mitsuba2'},
+      children:[]
+    },
+    neural.children[0]
+  ]
+};
+
+const visualization={
+  name:'Visualization & Interaction',
+  tags:['application'],
+  found:sourceFields['Visualization (Scientific/Medical)'].found,
+  recent:sourceFields['XR: VR/AR/MR'].recent,
+  children:[sourceFields['Visualization (Scientific/Medical)'],sourceFields['XR: VR/AR/MR']]
+};
+
+data.nodes[0].children=[rendering,geometry,simulation,imaging,visualization];
+
+/* Academic outline: compact at first, complete on demand. */
 function createDots(tags){
   const wrap=document.createElement('span');
   wrap.className='tagdots';
@@ -234,55 +479,108 @@ function createDots(tags){
   return wrap;
 }
 
-function createNode(node, depth){
+function paperLink(paper, label){
+  const fragment=document.createDocumentFragment();
+  const prefix=document.createElement('span');
+  prefix.className='label';
+  prefix.textContent=label;
+  const link=document.createElement('a');
+  link.href=paper.url;
+  link.target='_blank';
+  link.rel='noopener';
+  link.textContent=paper.title;
+  fragment.append(prefix, document.createTextNode(' '), link);
+  return fragment;
+}
+
+function createNode(node, depth, number){
   const wrap=document.createElement('div');
-  wrap.className='node';
+  wrap.className='node depth-'+depth;
 
   const header=document.createElement('div');
   header.className='header';
+  header.setAttribute('role','button');
+  header.tabIndex=0;
 
-  const toggle=document.createElement('span');
-  toggle.className='toggle';
-  toggle.textContent='+';
+  const index=document.createElement('span');
+  index.className='entry-index';
+  index.textContent=number;
 
-  if(depth>0){ header.appendChild(createDots(node.tags||[])); } /* no dots on root */
+  const titleRow=document.createElement('span');
+  titleRow.className='title-row';
+  if(depth>0) titleRow.appendChild(createDots(node.tags||[]));
 
   const title=document.createElement('span');
   title.className='title';
   title.textContent=node.name;
+  titleRow.appendChild(title);
 
   const badge=document.createElement('span');
   badge.className='badge';
-  badge.textContent=(node.children&&node.children.length)?node.children.length+' subfields':'leaf';
+  const childCount=node.children?.length||0;
+  badge.textContent=childCount ? '+' : '';
 
-  header.appendChild(toggle);
-  header.appendChild(title);
-  header.appendChild(badge);
+  header.append(index,titleRow,badge);
   wrap.appendChild(header);
 
   const meta=document.createElement('div');
   meta.className='meta links';
-  meta.innerHTML='Foundational: <a href="'+node.found.url+'" target="_blank" rel="noopener">'+node.found.title+
-                 '</a> • Recent: <a href="'+node.recent.url+'" target="_blank" rel="noopener">'+node.recent.title+'</a>';
+  meta.appendChild(paperLink(node.found,'Earlier'));
+  const separator=document.createElement('span');
+  separator.className='separator';
+  separator.textContent='·';
+  meta.appendChild(separator);
+  meta.appendChild(paperLink(node.recent,'Later'));
   wrap.appendChild(meta);
 
   const kids=document.createElement('div');
   kids.className='children';
-  if(node.children){ node.children.forEach(ch=>kids.appendChild(createNode(ch, depth+1))); }
+  if(depth>0) kids.hidden=true;
+  if(node.children){
+    node.children.forEach((ch,i)=>{
+      const childNumber=depth===0 ? String(i+1).padStart(2,'0') : number+'.'+(i+1);
+      kids.appendChild(createNode(ch,depth+1,childNumber));
+    });
+  }
   wrap.appendChild(kids);
 
-  header.addEventListener('click',e=>{
-    if(e.target.tagName.toLowerCase()==='a') return;
-    const open=kids.style.display==='block';
-    kids.style.display=open?'none':'block';
-    toggle.textContent=open?'+':'–';
-  });
+  const setOpen=(open)=>{
+    if(!childCount) return;
+    kids.hidden=!open;
+    header.setAttribute('aria-expanded',String(open));
+    badge.textContent=open?'−':'+';
+  };
+  if(childCount){
+    header.setAttribute('aria-expanded',String(depth===0));
+    const toggle=()=>setOpen(kids.hidden);
+    header.addEventListener('click',toggle);
+    header.addEventListener('keydown',event=>{
+      if(event.key==='Enter'||event.key===' '){ event.preventDefault(); toggle(); }
+    });
+  } else {
+    header.removeAttribute('role');
+    header.removeAttribute('tabindex');
+  }
 
   return wrap;
 }
 
 const root=data.nodes[0];
-document.getElementById('tree').appendChild(createNode(root, 0));
+document.getElementById('tree').appendChild(createNode(root,0,''));
+
+function setAll(open){
+  document.querySelectorAll('#tree .node').forEach(node=>{
+    const children=node.querySelector(':scope > .children');
+    const header=node.querySelector(':scope > .header');
+    if(!children||!children.children.length) return;
+    if(node.classList.contains('depth-0')) return;
+    children.hidden=!open;
+    header.setAttribute('aria-expanded',String(open));
+    header.querySelector('.badge').textContent=open?'−':'+';
+  });
+}
+document.getElementById('expand-all').addEventListener('click',()=>setAll(true));
+document.getElementById('collapse-all').addEventListener('click',()=>setAll(false));
 </script>
 </body>
 </html>
